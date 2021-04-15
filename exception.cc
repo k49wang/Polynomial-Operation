@@ -11,7 +11,7 @@ FractionException::FractionException( const std::string& msg ):
 
 
 // Fraction Read exception constructor 
-FractionReadException( const std::string& msg ):
+FractionReadException::FractionReadException( const std::string& msg ):
     FractionException{ msg } { } 
 
 // print Fraction Read exception error message
@@ -21,7 +21,7 @@ void FractionReadException::what() {
 } // FractionReadException::what
 
 // Fraction Division exception constructor
-FractionDivisionException( const std::string& msg ):
+FractionDivisionException::FractionDivisionException( const std::string& msg ):
     FractionException{ msg } { } 
 
 // print Fraction Division exception error message 
