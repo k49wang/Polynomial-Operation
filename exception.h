@@ -5,22 +5,22 @@
 
 class BaseException {
   protected: 
-    std::string errorMsg;                           // error message 
+    const std::string errorMsg;                                 // error message 
   public:
-    BaseException( const std::string& ); 
+    BaseException( const std::string& = "" ); 
     virtual void what() = 0; 
 }; 
 
 class FractionException : public BaseException {
   public:
-    FractionException( const std::string& );
+    FractionException( const std::string& = "" );
     virtual void what() = 0; 
 };
 
 // triggers when denominator of fraction is 0 
 class FractionReadException : public FractionException {
   public:
-    FractionReadException( const std::string& );
+    FractionReadException( const std::string& = "denominator is zero" );
     void what() override; 
 };
 
@@ -28,7 +28,7 @@ class FractionReadException : public FractionException {
 // and denominator fraction is 0 
 class FractionDivisionException : public FractionException {
   public:
-    FractionDivisionException( const std::string& );
+    FractionDivisionException( const std::string& = "division by zero" );
     void what() override;
 };
 
