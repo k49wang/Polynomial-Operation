@@ -2,11 +2,10 @@
 #include "fraction.h"
 #include "exception.h"
 
-// constant fields must use MIL 
 Fraction::Fraction( const int& nom, const int& denom ):
     nominator{nom}, denominator{denom} {
     
-    if ( denominator == 0 ) throw FractionReadException();    // invalid read ?  
+    if ( denominator == 0 ) throw FractionReadException();    // invalid fraction ?  
     fixSign(); 
     simplify();
 } // Fraction::Fraction
@@ -40,6 +39,14 @@ bool Fraction::zeroFraction() const {
     return nominator == 0; 
 } // Fraction::zeroFraction 
 
+void Fraction::setValues( const int& nom, const int& denom ) {
+    if ( denom == 0 ) throw FractionReadException();          // invalid fraction ?   
+    nominator = nom;
+    denominator = denom;
+    fixSign();
+    simplify();
+} // Fraction::setValues
+
 Fraction Fraction::operator+( const Fraction& rhs ) const {
     int newDenom = denominator * rhs.denominator; 
     int newNom = nominator * rhs.denominator + rhs.nominator * denominator;
@@ -68,7 +75,9 @@ Fraction Fraction::operator/( const Fraction& rhs ) const {
 } // Fraction::operator/
 
 std::ostream& operator<<( std::ostream& out, const Fraction& f ) {
+    if ( f.nominator < 0 ) out << "(";
     out << f.nominator;
     if ( f.denominator != 1 ) out << "/" << f.denominator; 
+    if ( f.nominator < 0 ) out << ")";
     return out;
 } // operator<< 

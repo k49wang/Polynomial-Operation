@@ -16,6 +16,8 @@ class Fraction {
     int getNominator() const;                               // accessor 
     bool zeroFraction() const;                              // equivalent to zero ?
 
+    void setValues( const int& nom, const int& denom );      // mutator
+
     // four basic operator overloading for fractions 
     Fraction operator+( const Fraction& ) const;            // addition
     Fraction operator-( const Fraction& ) const;            // subtraction
