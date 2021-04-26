@@ -15,18 +15,19 @@ class Fraction {
     int getDenominator() const;                             // accessor
     int getNominator() const;                               // accessor 
     bool zeroFraction() const;                              // equivalent to zero ?
-
-    void setValues( const int& nom, const int& denom );      // mutator
+    bool oneFraction() const;                               // equivalent to one 
+    void setValues( const int& nom, const int& denom );     // mutator
 
     // four basic operator overloading for fractions 
     Fraction operator+( const Fraction& ) const;            // addition
     Fraction operator-( const Fraction& ) const;            // subtraction
     Fraction operator*( const Fraction& ) const;            // multiplication
     Fraction operator/( const Fraction& ) const;            // division
-
+    Fraction& operator+=( const Fraction& );           // addition and assignment 
     friend std::ostream& operator<<( std::ostream&, const Fraction& );
 };
 
 std::ostream& operator<<( std::ostream&, const Fraction& ); // write to output
+std::istream& operator>>( std::istream&, Fraction& );       // read from input
 
 #endif 

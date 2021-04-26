@@ -39,6 +39,10 @@ bool Fraction::zeroFraction() const {
     return nominator == 0; 
 } // Fraction::zeroFraction 
 
+bool Fraction::oneFraction() const {
+    return nominator == 1 && denominator == 1; 
+} // Fraction::oneFraction
+
 void Fraction::setValues( const int& nom, const int& denom ) {
     if ( denom == 0 ) throw FractionReadException();          // invalid fraction ?   
     nominator = nom;
@@ -74,6 +78,15 @@ Fraction Fraction::operator/( const Fraction& rhs ) const {
     return Fraction{ newNom, newDenom }; 
 } // Fraction::operator/
 
+Fraction& Fraction::operator+=( const Fraction& rhs ) {
+    int newDenom = denominator * rhs.denominator;
+    int newNom = nominator * rhs.denominator + rhs.nominator * denominator; 
+    nominator = newNom;
+    denominator = newDenom;
+    simplify();
+    return *this;
+} // Fraction::operator+=
+
 std::ostream& operator<<( std::ostream& out, const Fraction& f ) {
     if ( f.nominator < 0 ) out << "(";
     out << f.nominator;
@@ -81,3 +94,11 @@ std::ostream& operator<<( std::ostream& out, const Fraction& f ) {
     if ( f.nominator < 0 ) out << ")";
     return out;
 } // operator<< 
+
+std::istream& operator>>( std::istream& in, Fraction& f ) {
+    in.exceptions(std::ios_base::failbit);
+    int nom, denom; 
+    in >> nom >> denom; 
+    f.setValues( nom, denom );
+    return in; 
+}

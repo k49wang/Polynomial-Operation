@@ -1,17 +1,20 @@
 #ifndef __POLYNOMIAL_H__
 #define __POLYNOMIAL_H__
 
-#include <memory>
+#include <iostream>
+#include <vector>
 
 class Fraction; 
 
 class Polynomial {
     int maxExp;                                         // highest exponent
-    std::unique_ptr<Fraction*> expression;              // the expression 
+    std::vector<Fraction> expression;                   // the expression 
   
-    Fraction* deepCopy();                               // deep copy the expression
+    //Fraction* deepCopy();                             // deep copy the expression
   public:
-    Polynomial( const int& n ); 
+    Polynomial();                                       // default constructor
+    Polynomial( const Polynomial& );                    // copy construcor
+    Polynomial operator=( const Polynomial& );          // copy assignment 
 
     Polynomial operator+( const Polynomial& );          // addition
     Polynomial operator-( const Polynomial& );          // substraction
