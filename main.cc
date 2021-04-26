@@ -8,5 +8,6 @@ int main( int argc, char* argv[] ) {
     std::cin >> poly1 >> poly2;
     std::cout << poly1 << std::endl;
     std::cout << poly2 << std::endl;
-    std::cout << poly2 * poly1 << std::endl; 
+    std::cout << poly1 / poly2 << std::endl; 
+    std::cout << poly1 % poly2 << std::endl; 
 }

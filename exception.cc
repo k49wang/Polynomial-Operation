@@ -29,3 +29,17 @@ void FractionDivisionException::what() {
     std::cerr << "Error performing fraction division: ";
     std::cerr << errorMsg << std::endl; 
 } // FractionDivisionException::what 
+
+// Polynomial exception constructor
+PolynomialException::PolynomialException( const std::string& msg ):
+    BaseException{ msg } { } 
+
+// Polynomial Division exception constructor 
+PolynomialDivisionException::PolynomialDivisionException( const std::string& msg ):
+    PolynomialException{ msg } { }
+
+// print Polynomial Divison exception error message
+void PolynomialDivisionException::what() {
+    std::cerr << "Error performing polynomial division: ";
+    std::cerr << errorMsg << std::endl;
+}

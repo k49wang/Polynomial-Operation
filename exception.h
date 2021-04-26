@@ -32,4 +32,15 @@ class FractionDivisionException : public FractionException {
     void what() override;
 };
 
+class PolynomialException : public BaseException {
+  public:
+    PolynomialException( const std::string& = "" );
+    virtual void what() = 0;
+};
+
+class PolynomialDivisionException : public PolynomialException {
+  public:
+    PolynomialDivisionException( const std::string& = "division by zero" ); 
+    void what() override; 
+};
 #endif 

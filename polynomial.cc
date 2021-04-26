@@ -25,7 +25,26 @@ Polynomial Polynomial::operator=( const Polynomial& rhs ) {
     return *this; 
 } // Polynomial::operator= 
 
-Polynomial Polynomial::operator+( const Polynomial& rhs ) {
+bool Polynomial::zeroPolynomial() const { 
+    for ( auto& fraction : expression ) {
+        if ( fraction.zeroFraction() == false ) {
+            return false; 
+        }
+    }
+    return true;
+} // Polynomial::zeroPolynomial 
+
+Polynomial Polynomial::multiplySingleFraction( const Fraction& f, const int& exp ) const {
+    Polynomial retval; 
+    retval.maxExp = maxExp + exp;
+    retval.expression.resize( retval.maxExp + 1 ); 
+    for ( int i = 0; i <= maxExp; i++ ) {
+        retval.expression.at( i + exp ) = expression.at( i ) * f; 
+    }
+    return retval;
+}
+
+Polynomial Polynomial::operator+( const Polynomial& rhs ) const {
     Polynomial retval; 
     retval.maxExp = maxExp >= rhs.maxExp ? maxExp : rhs.maxExp; 
     retval.expression.resize( retval.maxExp + 1 );
@@ -40,7 +59,7 @@ Polynomial Polynomial::operator+( const Polynomial& rhs ) {
     return retval;
 } // Polynomial::operator+
 
-Polynomial Polynomial::operator-( const Polynomial& rhs ) {
+Polynomial Polynomial::operator-( const Polynomial& rhs ) const {
     Polynomial retval;
     retval.maxExp = maxExp >= rhs.maxExp ? maxExp : rhs.maxExp; 
     retval.expression.resize( retval.maxExp + 1 ); 
@@ -49,11 +68,15 @@ Polynomial Polynomial::operator-( const Polynomial& rhs ) {
     } // for
     for ( int i = 0; i <= rhs.maxExp; i++ ) {
         retval.expression.at( i ) = retval.expression.at( i ) - rhs.expression.at( i );
-    } // for
+    } // for 
+    while ( retval.expression.back().zeroFraction() == true ) {
+        retval.maxExp -= 1;
+        retval.expression.pop_back();
+    }
     return retval; 
 } // Polynomial::operator-
 
-Polynomial Polynomial::operator*( const Polynomial& rhs ) {
+Polynomial Polynomial::operator*( const Polynomial& rhs ) const {
     Polynomial retval;
     retval.maxExp = maxExp + rhs.maxExp;
     retval.expression.resize( retval.maxExp + 1 ); 
@@ -66,7 +89,35 @@ Polynomial Polynomial::operator*( const Polynomial& rhs ) {
     return retval; 
 } // Polynomial::operator* 
 
+Polynomial Polynomial::operator/( const Polynomial& rhs ) const {
+    if ( rhs.zeroPolynomial() == true ) {
+        throw PolynomialDivisionException(); 
+    }
+    Polynomial retval;
+    retval.maxExp = maxExp - rhs.maxExp; 
+    retval.expression.resize( retval.maxExp + 1 ); 
+    Polynomial temp = *this; 
+    while ( temp.maxExp >= rhs.maxExp ) {
+        int exp = temp.maxExp - rhs.maxExp; 
+        Fraction coeff = temp.expression.back() / rhs.expression.back();
+        Polynomial result = rhs.multiplySingleFraction( coeff, exp );
+        temp = temp - result;
+        retval.expression.at( exp ) = coeff; 
+    }
+    return retval; 
+} // Polynomial::operator/ 
+
+Polynomial Polynomial::operator%( const Polynomial& rhs ) const {
+    Polynomial quotient = *this / rhs;
+    Polynomial retval = *this - rhs * quotient;
+    return retval;
+} // Polynomial::operator%
+
 std::ostream& operator<<( std::ostream& out, const Polynomial& poly ) {
+    if ( poly.zeroPolynomial() == true ) {
+        out << "0";
+        return out; 
+    }
     bool printPlus = false;
     for ( int i = poly.maxExp; i >= 0; i-- ) {
         if ( poly.expression.at( i ).zeroFraction() == true ) {
