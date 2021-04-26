@@ -1,7 +1,7 @@
 # Polynomial-Operation
 
 Execution:
-    make
+    make <br />
     ./polynomialOperation < [ input-file ]
 
 1.  Performs polynomial operations
