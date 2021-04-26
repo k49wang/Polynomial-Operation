@@ -8,7 +8,7 @@ Execution:
     -   addition, subtraction, multiplication, division, mudulo 
     -   supports fraction operations as well 
 
-2.  Program reads from input file
+2.  Program reads from input file, 
     each line represents a polynomial expression 
 
 3.  While reading:
@@ -18,7 +18,7 @@ Execution:
     -   if read fails, such as reading the coefficient with 0 being the denominator, exception is raised and strong guarantee is offered
 
 4.  Sample input file:
-    3 1 1 0 1 0 1 -1 1
+    3 3 1 2 0 1 4 5 -1 6
     -   3 means the highest exponent of the polynomial 
     -   pair of (1, 2) represents 1/2 * x^3 
     -   pair of (0, 1) represents 0/1 * x^2
